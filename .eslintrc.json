@@ -1,0 +1,27 @@
+{
+"root": true,
+"ignorePatterns": ["dist/", "node_modules/", "*.js"],
+"env": {
+"node": true,
+"es2022": true
+},
+"parser": "@typescript-eslint/parser",
+"parserOptions": {
+"project": false,
+"sourceType": "module",
+"ecmaVersion": "latest"
+},
+"plugins": ["@typescript-eslint", "prettier"],
+"extends": [
+"plugin:@typescript-eslint/recommended",
+"plugin:prettier/recommended"
+],
+"rules": {
+"@typescript-eslint/require-await": "off",
+"@typescript-eslint/no-misused-promises": [
+"error",
+{ "checksVoidReturn": { "attributes": false, "properties": false } }
+],
+"prettier/prettier": ["warn", { "endOfLine": "lf" }]
+}
+}

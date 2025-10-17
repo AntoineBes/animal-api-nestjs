@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  api:
+    build: .
+    container_name: animal-api
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DATABASE_URL: 'file:./prisma/dev.db'
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./prisma:/app/prisma
+    command: ['sh', '-c', 'npx prisma generate && npx prisma migrate deploy || true && node dist/main.js']

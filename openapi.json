@@ -1,0 +1,791 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "App"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "HealthController_health",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "status": "ok"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Vérifier la santé du service",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/especes": {
+      "post": {
+        "operationId": "EspeceController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEspeceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Espèce créée avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "id": 1,
+                    "nom": "Mammifère"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Payload invalide (ex: \"nom\" manquant ou vide)"
+          }
+        },
+        "summary": "Créer une espèce",
+        "tags": [
+          "especes"
+        ]
+      },
+      "get": {
+        "operationId": "EspeceController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Liste des espèces renvoyée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": 1,
+                      "nom": "Mammifère"
+                    },
+                    {
+                      "id": 2,
+                      "nom": "Oiseau"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "summary": "Lister les espèces",
+        "tags": [
+          "especes"
+        ]
+      }
+    },
+    "/especes/{id}": {
+      "get": {
+        "operationId": "EspeceController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Espèce trouvée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "id": 1,
+                    "nom": "Mammifère"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID invalide"
+          }
+        },
+        "summary": "Obtenir une espèce par ID",
+        "tags": [
+          "especes"
+        ]
+      },
+      "patch": {
+        "operationId": "EspeceController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEspeceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Espèce mise à jour",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "id": 1,
+                    "nom": "Mammifères"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Payload ou ID invalide"
+          }
+        },
+        "summary": "Mettre à jour une espèce",
+        "tags": [
+          "especes"
+        ]
+      },
+      "delete": {
+        "operationId": "EspeceController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Espèce supprimée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "id": 1,
+                    "nom": "Mammifère"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID invalide"
+          }
+        },
+        "summary": "Supprimer une espèce",
+        "tags": [
+          "especes"
+        ]
+      }
+    },
+    "/animaux": {
+      "post": {
+        "operationId": "AnimalController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAnimalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Animal créé avec succès",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "id": 1,
+                    "nom": "Tigre",
+                    "especeId": 1,
+                    "statutUICN": "EN",
+                    "ordre": "Carnivora",
+                    "famille": "Felidae",
+                    "genre": "Panthera",
+                    "imageUrl": "https://exemple.com/tigre.jpg",
+                    "description": "Grand félin d'Asie.",
+                    "createdAt": "2025-10-09T10:00:00.000Z",
+                    "updatedAt": "2025-10-09T10:00:00.000Z",
+                    "espece": {
+                      "id": 1,
+                      "nom": "Mammifère"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Payload invalide"
+          }
+        },
+        "summary": "Créer un animal",
+        "tags": [
+          "animaux"
+        ]
+      },
+      "get": {
+        "operationId": "AnimalController_findAll",
+        "parameters": [
+          {
+            "name": "especeId",
+            "required": false,
+            "in": "query",
+            "description": "ID de l'espèce",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "statutUICN",
+            "required": false,
+            "in": "query",
+            "description": "Statut UICN (EX, EW, CR, EN, VU, NT, LC, DD, NE)",
+            "schema": {
+              "enum": [
+                "EX",
+                "EW",
+                "CR",
+                "EN",
+                "VU",
+                "NT",
+                "LC",
+                "DD",
+                "NE"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "ordre",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "famille",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "genre",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Recherche texte (nom/description)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Liste des animaux renvoyée",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": [
+                    {
+                      "id": 1,
+                      "nom": "Tigre",
+                      "especeId": 1,
+                      "statutUICN": "EN",
+                      "ordre": "Carnivora",
+                      "famille": "Felidae",
+                      "genre": "Panthera",
+                      "imageUrl": "https://exemple.com/tigre.jpg",
+                      "description": "Grand félin d'Asie.",
+                      "createdAt": "2025-10-09T10:00:00.000Z",
+                      "updatedAt": "2025-10-09T10:00:00.000Z",
+                      "espece": {
+                        "id": 1,
+                        "nom": "Mammifère"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Paramètres de recherche invalides"
+          }
+        },
+        "summary": "Lister les animaux (filtres facultatifs)",
+        "tags": [
+          "animaux"
+        ]
+      }
+    },
+    "/animaux/{id}": {
+      "get": {
+        "operationId": "AnimalController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "asc|desc",
+            "schema": {
+              "example": "asc",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "nom|createdAt",
+            "schema": {
+              "example": "nom",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "q",
+            "required": false,
+            "in": "query",
+            "description": "Recherche (nom/description)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "genre",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "famille",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ordre",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "statutUICN",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "EX",
+                "EW",
+                "CR",
+                "EN",
+                "VU",
+                "NT",
+                "LC",
+                "DD",
+                "NE"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "especeId",
+            "required": false,
+            "in": "query",
+            "description": "ID de l'espèce",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Résultats paginés",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "data": [
+                      {
+                        "id": 1,
+                        "nom": "Tigre",
+                        "especeId": 1,
+                        "statutUICN": "EN",
+                        "ordre": "Carnivora",
+                        "famille": "Felidae",
+                        "genre": "Panthera",
+                        "imageUrl": "https://exemple.com/tigre.jpg",
+                        "description": "Grand félin d'Asie.",
+                        "createdAt": "2025-10-09T10:00:00.000Z",
+                        "updatedAt": "2025-10-09T10:00:00.000Z",
+                        "espece": {
+                          "id": 1,
+                          "nom": "Mammifère"
+                        }
+                      }
+                    ],
+                    "page": 1,
+                    "pageSize": 10,
+                    "total": 5
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID invalide"
+          }
+        },
+        "summary": "Obtenir un animal par ID",
+        "tags": [
+          "animaux"
+        ]
+      },
+      "patch": {
+        "operationId": "AnimalController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAnimalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Animal mis à jour",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "id": 1,
+                    "nom": "Tigre de Sibérie",
+                    "especeId": 1,
+                    "statutUICN": "EN",
+                    "description": "Mise à jour",
+                    "updatedAt": "2025-10-09T10:10:00.000Z"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Payload invalide"
+          }
+        },
+        "summary": "Mettre à jour un animal",
+        "tags": [
+          "animaux"
+        ]
+      },
+      "delete": {
+        "operationId": "AnimalController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Animal supprimé",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "id": 1,
+                    "nom": "Tigre",
+                    "especeId": 1
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID invalide"
+          }
+        },
+        "summary": "Supprimer un animal",
+        "tags": [
+          "animaux"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Animal API",
+    "description": "API de gestion des espèces et des animaux, incluant classification taxonomique et statut de conservation UICN. Les endpoints exposent un CRUD complet, des filtres de recherche et une documentation interactive via Swagger.",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "especes",
+      "description": "Gestion des espèces (CRUD)"
+    },
+    {
+      "name": "animaux",
+      "description": "Gestion des animaux (CRUD et recherche)"
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateEspeceDto": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string",
+            "example": "Mammifère"
+          }
+        },
+        "required": [
+          "nom"
+        ]
+      },
+      "UpdateEspeceDto": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string",
+            "example": "Mammifères"
+          }
+        }
+      },
+      "CreateAnimalDto": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string",
+            "example": "Tigre"
+          },
+          "especeId": {
+            "type": "number",
+            "example": 1,
+            "description": "ID de l'espèce"
+          },
+          "statutUICN": {
+            "type": "string",
+            "enum": [
+              "EX",
+              "EW",
+              "CR",
+              "EN",
+              "VU",
+              "NT",
+              "LC",
+              "DD",
+              "NE"
+            ],
+            "example": "EN"
+          },
+          "regne": {
+            "type": "string",
+            "example": "Animalia"
+          },
+          "embranchement": {
+            "type": "string",
+            "example": "Chordata"
+          },
+          "classe": {
+            "type": "string",
+            "example": "Mammalia"
+          },
+          "ordre": {
+            "type": "string",
+            "example": "Carnivora"
+          },
+          "famille": {
+            "type": "string",
+            "example": "Felidae"
+          },
+          "genre": {
+            "type": "string",
+            "example": "Panthera"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "https://exemple.com/tigre.jpg",
+            "description": "URL d'une image illustrative"
+          },
+          "description": {
+            "type": "string",
+            "example": "Grand félin d'Asie."
+          }
+        },
+        "required": [
+          "nom",
+          "especeId"
+        ]
+      },
+      "UpdateAnimalDto": {
+        "type": "object",
+        "properties": {
+          "nom": {
+            "type": "string",
+            "example": "Tigre de Sibérie"
+          },
+          "especeId": {
+            "type": "number",
+            "example": 1
+          },
+          "statutUICN": {
+            "type": "string",
+            "enum": [
+              "EX",
+              "EW",
+              "CR",
+              "EN",
+              "VU",
+              "NT",
+              "LC",
+              "DD",
+              "NE"
+            ],
+            "example": "LC"
+          },
+          "regne": {
+            "type": "string",
+            "example": "Animalia"
+          },
+          "embranchement": {
+            "type": "string",
+            "example": "Chordata"
+          },
+          "classe": {
+            "type": "string",
+            "example": "Mammalia"
+          },
+          "ordre": {
+            "type": "string",
+            "example": "Carnivora"
+          },
+          "famille": {
+            "type": "string",
+            "example": "Felidae"
+          },
+          "genre": {
+            "type": "string",
+            "example": "Panthera"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "https://exemple.com/tigre.jpg"
+          },
+          "description": {
+            "type": "string",
+            "example": "Mise à jour de la description."
+          }
+        }
+      }
+    }
+  }
+}
